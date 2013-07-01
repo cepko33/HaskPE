@@ -18,5 +18,5 @@ intArr x
 	| x < 10 = [x]
 	| otherwise = (intArr (x `div` 10)) ++ [mod x 10] 
 
---sum (nub[z | y<-[1..2000], x<-[1..y], let z = x*y, ninePan x y])
+main = putStrLn $  show $ sum (nub[z | y<-[1..2000], x<-[1..y], let z = x*y, ninePan x y])
 --
