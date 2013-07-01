@@ -21,5 +21,4 @@ numRem :: Int -> [Int] -> Int
 numRem x nums = (permIndex x nums) * (fac ((length nums) -1))
 
 
--- permutationX 1000000 [0..9]
---
+main = show $ permutationX 1000000 [0..9]
