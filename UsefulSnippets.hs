@@ -1,6 +1,6 @@
 module UsefulSnippets where
 
-listNum :: Int -> [Int]
+listNum :: Integer -> [Integer]
 listNum i
         | i < 10 = [i]
         | otherwise = (listNum (i `div` 10)) ++ [(mod i 10)]
@@ -18,6 +18,7 @@ pDrome xs
 	| head xs == last xs = pDrome ((tail . init) xs)
 	| otherwise = False 
 
+comb' [] = 0
 comb' (x:xs) = x + (10 * (comb' xs))
 
 comb :: [Int] -> Int
