@@ -1,6 +1,6 @@
 module UsefulSnippets where
 
-listNum :: Integer -> [Integer]
+listNum :: Int -> [Int]
 listNum i
         | i < 10 = [i]
         | otherwise = (listNum (i `div` 10)) ++ [(mod i 10)]
