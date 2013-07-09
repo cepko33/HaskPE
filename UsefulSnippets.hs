@@ -1,11 +1,11 @@
 module UsefulSnippets where
 
-listNum :: Int -> [Int]
+listNum :: Integer -> [Integer]
 listNum i
         | i < 10 = [i]
         | otherwise = (listNum (i `div` 10)) ++ [(mod i 10)]
 
-primes :: [Int]
+primes :: [Integer]
 primes = 2: 3: sieve (tail primes) [5,7..]  
  
 sieve (p:ps) xs = h ++ sieve ps [x | x <- t, rem x p /=0]
@@ -21,7 +21,7 @@ pDrome xs
 comb' [] = 0
 comb' (x:xs) = x + (10 * (comb' xs))
 
-comb :: [Int] -> Int
+comb :: [Integer] -> Integer
 comb [] = 0
 comb list = comb' (reverse list)
 
