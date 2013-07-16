@@ -1,4 +1,5 @@
 module UsefulSnippets where
+import Data.List
 
 listNum :: Integer -> [Integer]
 listNum i
@@ -33,6 +34,6 @@ comb :: [Integer] -> Integer
 comb [] = 0
 comb list = comb' (reverse list)
 
-isPandig :: [Int] -> Bool
+isPandig :: [Integer] -> Bool
 isPandig [] = False
-isPandig tot = sum tot == sum [1..9]
+isPandig tot = [1..9] \\ tot == []
