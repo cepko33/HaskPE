@@ -37,3 +37,7 @@ comb list = comb' (reverse list)
 isPandig :: [Integer] -> Bool
 isPandig [] = False
 isPandig tot = [1..9] \\ tot == []
+
+rmdups :: (Ord a) => [a] -> [a]
+rmdups = map head . group . sort
+
