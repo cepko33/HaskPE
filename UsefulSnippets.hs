@@ -41,3 +41,26 @@ isPandig tot = [1..9] \\ tot == []
 rmdups :: (Ord a) => [a] -> [a]
 rmdups = map head . group . sort
 
+euler_fi n = let
+   fs = nub $ factorize n
+   pr = n * product [p-1 | p <- fs]
+  in foldl' div pr fs
+
+factorize n | n > 1 = go n primes  where
+  go n ds@(d:t)
+    | d*d > n    = [n]
+    | r == 0     =  d : go q ds
+    | otherwise  =      go n t
+        where
+          (q,r)  = quotRem n d
+
+sumDiv' [] nums divs = nums `div` divs
+sumDiv' (fx:fxs) nums divs = 
+	let 
+	l = length fx
+	n = head fx
+	in
+	sumDiv' fxs (nums * ((n^(l+1))-1)) (divs * (n - 1))	
+
+sumDiv 1 = 1
+sumDiv n = (sumDiv' (group $ factorize n) 1 1) - n

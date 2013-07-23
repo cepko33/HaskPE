@@ -1,49 +1,24 @@
+import UsefulSnippets
 import Data.List
-listDiv :: Int -> [Int]
-listDiv 1 = [1]
-listDiv i = listDiv_w i (i-1)
 
-listDiv_w :: Int -> Int -> [Int]
-listDiv_w _ 1 = [1]
-listDiv_w i f 
-	| (mod i f) == 0 = listDiv_w i (f-1) ++ [f]
-	| otherwise = listDiv_w i (f-1)
+abundance = [x | x<-[12..28122], sumDiv x > x]
 
-abund :: Int -> Char
-abund i
-	| divSum < i = 'd'
-	| divSum > i = 'a'
-	| divSum == i = 'p'
-	where divSum = sum $ divisors i 
+isAbundSum i (x:xs)
+	| i < x = True 
+	| (i-x) `elem` abundance = False
+	| otherwise = isAbundSum i xs
 
-divisors n = 1 : filter ((==0) . rem n) [2 .. n `div` 2]
+pe23' _ [] _ = True
+pe23' i (x:xs) ablist
+	| i-x `elem` ablist = False
+	| otherwise = pe23' i xs ablist
 
-isMultiple :: Int -> Int -> Int -> Bool
-isMultiple i m lim
-	| r > lim = False
-	| r == lim = True
-	| otherwise = isMultiple i (m+1) lim
-	where r = i*m
+pe23 i lim ret
+	| i > lim = []
+	| abund && pe23' i ret ret = i: pe23 (i+1) lim (ret++[i])
+	| pe23' i ret ret = i: pe23 (i+1) lim ret
+	| abund = pe23 (i+1) lim (ret++[i])
+	| otherwise = pe23 (i+1) lim ret
+	where abund = sumDiv i > i
 
-multipleInArr :: Int -> [Int] -> Bool
-multipleInArr _ [] = False
-multipleInArr i (x:xs)
-	| isMultiple x 1 i  = True 
-	| otherwise = multipleInArr i xs
-
-allMultiples :: Int -> Int -> Int -> [Int]
-allMultiples base mult lim
-	| duh <= lim = [duh] ++ allMultiples base (mult + 1) lim
-	| otherwise = []
-	where duh = (base*mult)
-
-genAb :: Int -> Int -> [Int] -> [Int]
-genAb i lim ret
-	| i > lim = ret
-	| i `elem` ret = genAb (i+1) lim ret 
---	| multipleInArr i bases = genAb (i+1) lim bases ret
-	| abund i == 'a' = genAb (i+1) lim (ret ++ (allMultiples i 1 lim))
-	| otherwise = genAb (i+1) lim ret
-
-genAb' :: Int -> [Int]
-genAb' lim = nub $ sort $ genAb 12 lim []
+main = sum $ pe23 1 20162 []
