@@ -1,24 +1,38 @@
+import UsefulSnippets
+import Data.Ratio
 import Data.List
-genDiag :: Int -> [Int]
+genDiag :: Integer -> [Integer]
 genDiag 1 = [1]
 genDiag i =
 	let 
 	n = ((2*i)-1)^2
 	dif = (2*(i-1))
-	in [n-3*dif,n-2*dif,n-dif,n]
+	in [n-3*dif,n-2*dif,n-dif]
 
-primes :: [Int]
-primes = 2: 3: sieve (tail primes) [5,7..]  
- 
-sieve (p:ps) xs = h ++ sieve ps [x | x <- t, rem x p /=0]
-  where (h,~(_:t)) = span(< p*p) xs
 
-pe58 :: Int -> [Int] -> Int
-pe58 1 _ = pe58 2 [1] 
-pe58 i justPrimes
-	| ((fromIntegral (length newJup)) / (fromIntegral (4*(i-1) + 1))) < 0.15= (2*i-1)
-	| otherwise = pe58 (i+1) newJup
+pe58 :: Integer -> Integer -> (Integer,Double)
+pe58 1 _ = pe58 2 0 
+pe58 i primes
+	| ratio < 0.10= (i,ratio)
+	| otherwise = pe58 (i+1) newJup 
 	where 
 	newBit = genDiag i
-	newJup = justPrimes ++ filter (`elem` (takeWhile (< last newBit) primes)) newBit
+	newJup = primes +  (fromIntegral $ length $ filter stolenIsPrime newBit)
+	--newJup = primes + (fromIntegral $ length $ filter isPrime newBit)
+	ratio = (fromIntegral newJup) / (fromIntegral (4*(i-1) + 1)) 
 
+stolenIsPrime n
+	| n <= 1 = False
+	| n == 2 = True
+	| n `mod` 2 == 0 = False
+	| n < 9 = True
+	| n `mod` 3 == 0 = False
+	| otherwise = coun n 5
+
+coun n i
+	| i^2 > n = True
+	| n `mod` i == 0 = False
+	| n `mod` (i + 2) == 0 = False
+	| otherwise = coun n (i+6)
+
+main = print $ (2 * (fst (pe58 1 0)) - 1)
