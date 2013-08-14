@@ -1,0 +1,17 @@
+import Data.Text as T
+import Data.Text.Read as R
+exp x y = y * (log x)
+
+
+splitFile :: String -> IO [Text]
+splitFile fileName = do
+        file <- readFile fileName
+        return (splitOn (pack "\n") (T.filter (/='"') (pack file)))
+empty = pack("")
+baseExp (String s) = (0,0)
+baseExp (Integral i, ) = i
+baseExp (Integral i, Text (t:tx)) = (i, baseExp tx)
+
+main = do
+	file <- splitFile "base_exp.txt"
+	print file
